@@ -14,7 +14,7 @@ nikolaev14 Platform repository
 
 Использую oh-my-zsh, достаточно добавить плагин в .zshrc
 Попутно поделюсь своими плагинами:
-    plugins=(git minikube kubectl ansible cp dash docker emoji git-flow go gradle helm history iterm2 jira npm pip python screen themes tig vault vim-interaction vscode zsh-navigation-tools)
+    plugins=(git minikube kubectl ansible cp dash docker emoji git-flow go gradle helm history iterm2 jira npm pip python screen themes tig vault vim-interaction vscode zsh-navigation-tools kube-ps1)
 
 #### Установка minikube
 
@@ -161,7 +161,7 @@ nikolaev14 Platform repository
 	kubernetes-dashboard-7b8ddcb5d6-j7zjh   1/1     Running   0          41m
 	storage-provisioner                     1/1     Running   0          40m
 
-	#coredns
+#### coredns
 
 	$kubectl -n kube-system describe replicasets coredns
 >>>
@@ -171,4 +171,50 @@ nikolaev14 Platform repository
 	Controlled By:  Deployment/coredns
 	Replicas:       2 current / 2 desired
 	Pods Status:    2 Running / 0 Waiting / 0 Succeeded / 0 Failed
+
+#### kube-apiserver
+	
+	$ ps -eo 'tty,pid,comm' | grep ^? | grep api
+	?3584 kube-apiserver
+
+	$ ps -eo 'tty,pid,comm' | grep ^? | grep kubelet
+	?9917 kubelet
+
+#### kubelet stop
+
+	$sudo systemctl stop kubelet
+	$kubectl -n kube-system get pods
+>>>
+	NAME                                    READY   STATUS        RESTARTS   AGE
+	coredns-5c98db65d4-8qlc2                1/1     Terminating   0          12m
+	coredns-5c98db65d4-bb97z                1/1     Terminating   0          12m
+	coredns-5c98db65d4-f2ttt                0/1     Pending       0          19s
+	coredns-5c98db65d4-lkljs                0/1     Pending       0          19s
+	etcd-minikube                           1/1     Terminating   0          12m
+	kube-addon-manager-minikube             1/1     Terminating   0          11m
+	kube-apiserver-minikube                 1/1     Terminating   0          11m
+	kube-controller-manager-minikube        1/1     Terminating   0          12m
+	kube-proxy-fzx4m                        1/1     Terminating   0          12m
+	kube-scheduler-minikube                 1/1     Terminating   0          11m
+	
+	$sudo systemctl start kubelet
+	$kubectl -n kube-system get pods
+>>>
+	NAME                                    READY   STATUS    RESTARTS   AGE
+	coredns-5c98db65d4-f2ttt                0/1     Pending   0          75s
+	coredns-5c98db65d4-lkljs                0/1     Pending   0          75s
+	etcd-minikube                           1/1     Running   0          12s
+	kube-addon-manager-minikube             1/1     Running   0          12s
+	kube-apiserver-minikube                 1/1     Running   0          10s
+	kube-controller-manager-minikube        1/1     Running   0          12s
+	kube-proxy-f2zjk                        0/1     Pending   0          3s
+	kube-scheduler-minikube                 1/1     Running   0          9s
+	kubernetes-dashboard-7b8ddcb5d6-9jnnq   0/1     Pending   0          75s
+
+	Вывод - с погашенным kubelet поды продолжали работать, однако, по всей видимости, кластер
+		должен был развалиться.
+	coredns - имеет replikaset с 2мя репликами, потому и поддерживает их количество 
+	kube-apiserver и kubelet - системные сервисы и их работа поддерживается ОС
+	
+
 
