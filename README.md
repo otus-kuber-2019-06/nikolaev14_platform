@@ -82,4 +82,65 @@ nikolaev14 Platform repository
     🤔  Verifying proxy health ...
     🎉  Opening http://127.0.0.1:60216/api/v1/namespaces/kube-system/services/http:kubernetes-dashboard:/proxy/ in your default browser...
 
+#### Смотрим, что там внутри виртуалки с minikube
+
+	$minikube ssh
+>>>
+                             _             _
+                _         _ ( )           ( )
+      ___ ___  (_)  ___  (_)| |/')  _   _ | |_      __
+    /' _ ` _ `\| |/' _ `\| || , <  ( ) ( )| '_`\  /'__`\
+    | ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
+    (_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)
+
+	$docker ps
+>>>
+Большой вывод по запущенным контейнерам
+
+	$docker rm -f $(docker ps -a -q)
+>>>
+    ...
+    5579729a60c9
+    2b21876e2c8c
+    611a42222f48
+    ...
+
+Удолил, ты все удолил...
+Но все вернулось, а почему?
+
+#### Экспериментируем с kubectl
+
+	$kubectl get pods -n kube-system
+>>>
+    NAME                                    READY   STATUS    RESTARTS   AGE
+    coredns-5c98db65d4-k9r2d                1/1     Running   0          34h
+    coredns-5c98db65d4-pv7q9                1/1     Running   0          34h
+    etcd-minikube                           1/1     Running   0          34h
+    kube-addon-manager-minikube             1/1     Running   0          34h
+    kube-apiserver-minikube                 1/1     Running   0          34h
+    kube-controller-manager-minikube        1/1     Running   0          34h
+    kube-proxy-ftw85                        1/1     Running   0          34h
+    kube-scheduler-minikube                 1/1     Running   0          34h
+    kubernetes-dashboard-7b8ddcb5d6-k8mpt   1/1     Running   0          34h
+    storage-provisioner                     1/1     Running   0          34h
+
+	$kubectl delete pod --all -n kube-system
+>>>
+    pod "coredns-5c98db65d4-k9r2d" deleted
+    pod "coredns-5c98db65d4-pv7q9" deleted
+    pod "etcd-minikube" deleted
+    pod "kube-addon-manager-minikube" deleted
+    pod "kube-apiserver-minikube" deleted
+    pod "kube-controller-manager-minikube" deleted
+    pod "kube-proxy-ftw85" deleted
+    pod "kube-scheduler-minikube" deleted
+    pod "kubernetes-dashboard-7b8ddcb5d6-k8mpt" deleted
+    pod "storage-provisioner" deleted
+
+	$kubectl get componentstatuses #Сокращенно kubectl get cs
+>>>
+    NAME                 STATUS    MESSAGE             ERROR
+    controller-manager   Healthy   ok
+    scheduler            Healthy   ok
+    etcd-0               Healthy   {"health":"true"}
 
