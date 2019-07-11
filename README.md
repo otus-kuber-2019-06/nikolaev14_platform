@@ -15,3 +15,55 @@ nikolaev14 Platform repository
 Использую oh-my-zsh, достаточно добавить плагин в .zshrc
 Попутно поделюсь своими плагинами:
     plugins=(git minikube kubectl ansible cp dash docker emoji git-flow go gradle helm history iterm2 jira npm pip python screen themes tig vault vim-interaction vscode zsh-navigation-tools)
+
+#### Установка minikube
+
+	$brew install minikube virtualbox
+
+
+#### Запуск minikube
+
+	$minikube start
+>>>
+    😄  minikube v1.2.0 on darwin (amd64)
+    💡  Tip: Use 'minikube start -p <name>' to create a new cluster, or 'minikube delete' to delete this one.
+    🔄  Restarting existing virtualbox VM for "minikube" ...
+    ⌛  Waiting for SSH access ...
+    🐳  Configuring environment for Kubernetes v1.15.0 on Docker 18.09.6
+    🔄  Relaunching Kubernetes v1.15.0 using kubeadm ...
+    ⌛  Verifying: apiserver proxy etcd scheduler controller dns
+    🏄  Done! kubectl is now configured to use "minikube"
+
+	$minikube status
+>>>
+    host: Running
+    kubelet: Running
+    apiserver: Running
+    kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
+
+	$kubectl config view
+>>>
+    apiVersion: v1
+    clusters:
+    - cluster:
+        certificate-authority: /Users/igor/.minikube/ca.crt
+        server: https://192.168.99.100:8443
+    name: minikube
+    contexts:
+    - context:
+        cluster: minikube
+        user: minikube
+    name: minikube
+    current-context: minikube
+    kind: Config
+    preferences: {}
+    users:
+    - name: minikube
+    user:
+        client-certificate: /Users/igor/.minikube/client.crt
+        client-key: /Users/igor/.minikube/client.key
+
+	$kubectl cluster-info
+>>>
+    Kubernetes master is running at https://192.168.99.100:8443
+    KubeDNS is running at https://192.168.99.100:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
