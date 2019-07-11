@@ -67,3 +67,19 @@ nikolaev14 Platform repository
 >>>
     Kubernetes master is running at https://192.168.99.100:8443
     KubeDNS is running at https://192.168.99.100:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+#### Посмотрим на k9s
+Поставил из brew, штука забавная и полезная берем в пользование.
+
+
+#### Запускаем Dashboard
+
+	$minikube addons enable dashboard
+	$minikube dashboard
+>>>
+    🤔  Verifying dashboard health ...
+    🚀  Launching proxy ...
+    🤔  Verifying proxy health ...
+    🎉  Opening http://127.0.0.1:60216/api/v1/namespaces/kube-system/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+
+
