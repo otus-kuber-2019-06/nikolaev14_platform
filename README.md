@@ -144,3 +144,31 @@ nikolaev14 Platform repository
     scheduler            Healthy   ok
     etcd-0               Healthy   {"health":"true"}
 
+
+### Ответ на домашнее задание
+
+	$kubectl get pods -n kube-system
+>>>
+	NAME                                    READY   STATUS    RESTARTS   AGE
+	coredns-5c98db65d4-9bmdg                1/1     Running   0          41m
+	coredns-5c98db65d4-htwcv                1/1     Running   0          41m
+	etcd-minikube                           1/1     Running   0          40m
+	kube-addon-manager-minikube             1/1     Running   0          41m
+	kube-apiserver-minikube                 1/1     Running   0          41m
+	kube-controller-manager-minikube        1/1     Running   0          41m
+	kube-proxy-kjxpz                        1/1     Running   0          40m
+	kube-scheduler-minikube                 1/1     Running   0          40m
+	kubernetes-dashboard-7b8ddcb5d6-j7zjh   1/1     Running   0          41m
+	storage-provisioner                     1/1     Running   0          40m
+
+	#coredns
+
+	$kubectl -n kube-system describe replicasets coredns
+>>>
+	Annotations:    deployment.kubernetes.io/desired-replicas: 2
+	                deployment.kubernetes.io/max-replicas: 3
+	                deployment.kubernetes.io/revision: 1
+	Controlled By:  Deployment/coredns
+	Replicas:       2 current / 2 desired
+	Pods Status:    2 Running / 0 Waiting / 0 Succeeded / 0 Failed
+
