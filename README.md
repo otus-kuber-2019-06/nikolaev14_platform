@@ -5,7 +5,7 @@ nikolaev14 Platform repository
 #### Установка kubectl
 
 	$brew install kubernetes-cli
-
+>>>
 	$kubectl version
 >>>
     Client Version: version.Info{Major:"1", Minor:"15", GitVersion:"v1.15.0", GitCommit:"e8462b5b5dc2584fdcd18e6bcfe9f1e4d970a529", GitTreeState:"clean", BuildDate:"2019-06-20T04:49:16Z", GoVersion:"go1.12.6", Compiler:"gc", Platform:"darwin/amd64"}
@@ -19,7 +19,6 @@ nikolaev14 Platform repository
 #### Установка minikube
 
 	$brew install minikube virtualbox
-
 
 #### Запуск minikube
 
@@ -40,7 +39,7 @@ nikolaev14 Platform repository
     kubelet: Running
     apiserver: Running
     kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
-
+>>>
 	$kubectl config view
 >>>
     apiVersion: v1
@@ -62,7 +61,7 @@ nikolaev14 Platform repository
     user:
         client-certificate: /Users/igor/.minikube/client.crt
         client-key: /Users/igor/.minikube/client.key
-
+>>>
 	$kubectl cluster-info
 >>>
     Kubernetes master is running at https://192.168.99.100:8443
@@ -73,7 +72,7 @@ nikolaev14 Platform repository
 
 
 #### Запускаем Dashboard
-
+>>>
 	$minikube addons enable dashboard
 	$minikube dashboard
 >>>
@@ -94,9 +93,8 @@ nikolaev14 Platform repository
     (_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)
 
 	$docker ps
+    Большой вывод по запущенным контейнерам
 >>>
-Большой вывод по запущенным контейнерам
-
 	$docker rm -f $(docker ps -a -q)
 >>>
     ...
@@ -123,7 +121,7 @@ nikolaev14 Platform repository
     kube-scheduler-minikube                 1/1     Running   0          34h
     kubernetes-dashboard-7b8ddcb5d6-k8mpt   1/1     Running   0          34h
     storage-provisioner                     1/1     Running   0          34h
-
+>>>
 	$kubectl delete pod --all -n kube-system
 >>>
     pod "coredns-5c98db65d4-k9r2d" deleted
@@ -136,7 +134,7 @@ nikolaev14 Platform repository
     pod "kube-scheduler-minikube" deleted
     pod "kubernetes-dashboard-7b8ddcb5d6-k8mpt" deleted
     pod "storage-provisioner" deleted
-
+>>>
 	$kubectl get componentstatuses #Сокращенно kubectl get cs
 >>>
     NAME                 STATUS    MESSAGE             ERROR
@@ -196,7 +194,7 @@ nikolaev14 Platform repository
 	kube-controller-manager-minikube        1/1     Terminating   0          12m
 	kube-proxy-fzx4m                        1/1     Terminating   0          12m
 	kube-scheduler-minikube                 1/1     Terminating   0          11m
-	
+>>>
 	$sudo systemctl start kubelet
 	$kubectl -n kube-system get pods
 >>>
@@ -211,10 +209,11 @@ nikolaev14 Platform repository
 	kube-scheduler-minikube                 1/1     Running   0          9s
 	kubernetes-dashboard-7b8ddcb5d6-9jnnq   0/1     Pending   0          75s
 
-	Вывод - с погашенным kubelet поды продолжали работать, однако, по всей видимости, кластер
-		должен был развалиться.
-	coredns - имеет replikaset с 2мя репликами, потому и поддерживает их количество 
-	kube-apiserver и kubelet - системные сервисы и их работа поддерживается ОС
-	
+Вывод - с погашенным kubelet поды продолжали работать, однако, по всей видимости, кластер
+    должен был развалиться.
+coredns - имеет replikaset с 2мя репликами, потому и поддерживает их количество 
+kube-apiserver и kubelet - системные сервисы и их работа поддерживается ОС
+
+
 
 
